@@ -136,3 +136,1720 @@ Processing by PagesController#index as HTML
   Rendered pages/index.html.erb within layouts/application (0.6ms)
   Rendered layouts/_nav.html.erb (0.1ms)
 Completed 200 OK in 200ms (Views: 198.6ms | ActiveRecord: 0.0ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateReleafTranslations (20150913205537)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.6ms)[0m  [1mCREATE TABLE "releaf_translations" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "key" varchar NOT NULL, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.1ms)[0m  select sqlite_version(*)
+  [1m[36m (0.6ms)[0m  [1mCREATE UNIQUE INDEX "index_releaf_translations_on_key" ON "releaf_translations" ("key")[0m
+  [1m[35m (0.4ms)[0m  CREATE TABLE "releaf_translation_data" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "translation_id" integer NOT NULL, "lang" varchar(5) NOT NULL, "localization" text, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.2ms)[0m  [1mCREATE  INDEX "index_releaf_translation_data_on_lang" ON "releaf_translation_data" ("lang")[0m
+  [1m[35m (0.9ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_translation_data_on_lang' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_translation_data_on_lang' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1mCREATE  INDEX "index_releaf_translation_data_on_translation_id" ON "releaf_translation_data" ("translation_id")[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_translation_data_on_translation_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_translation_data_on_translation_id' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_translation_data_on_lang' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_translation_data_on_lang' AND type='index'
+[0m
+  [1m[35m (0.3ms)[0m  CREATE UNIQUE INDEX "index_releaf_translation_data_on_lang_and_translation_id" ON "releaf_translation_data" ("lang", "translation_id")
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150913205537"]]
+  [1m[35m (24.7ms)[0m  commit transaction
+Migrating to CreateReleafSettings (20150913205538)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.8ms)[0m  CREATE TABLE "settings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "var" varchar NOT NULL, "value" text, "thing_id" integer, "thing_type" varchar(30), "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.6ms)[0m  [1mCREATE UNIQUE INDEX "index_settings_on_thing_type_and_thing_id_and_var" ON "settings" ("thing_type", "thing_id", "var")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150913205538"]]
+  [1m[36m (11.5ms)[0m  [1mcommit transaction[0m
+Migrating to CreateReleafRoles (20150913205539)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.8ms)[0m  [1mCREATE TABLE "releaf_roles" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "default_controller" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150913205539"]]
+  [1m[36m (11.1ms)[0m  [1mcommit transaction[0m
+Migrating to CreateReleafNodes (20150913205540)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (0.4ms)[0m  [1mCREATE TABLE "nodes" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "slug" varchar, "parent_id" integer, "lft" integer, "rgt" integer, "depth" integer, "locale" varchar(6), "content_type" varchar, "content_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, "item_position" integer, "active" boolean DEFAULT 't' NOT NULL) [0m
+  [1m[35m (0.4ms)[0m  CREATE  INDEX "index_nodes_on_parent_id" ON "nodes" ("parent_id")
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+[0m
+  [1m[35m (0.5ms)[0m  CREATE  INDEX "index_nodes_on_content_type_and_content_id" ON "nodes" ("content_type", "content_id")
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1mCREATE  INDEX "index_nodes_on_lft" ON "nodes" ("lft")[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1mCREATE  INDEX "index_nodes_on_rgt" ON "nodes" ("rgt")[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m  CREATE  INDEX "index_nodes_on_depth" ON "nodes" ("depth")
+  [1m[36m (0.3ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+[0m
+  [1m[35m (0.3ms)[0m  CREATE  INDEX "index_nodes_on_slug" ON "nodes" ("slug")
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_slug' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+
+  [1m[36m (0.4ms)[0m  [1mCREATE  INDEX "index_nodes_on_name" ON "nodes" ("name")[0m
+  [1m[35m (0.3ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_name' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_slug' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1mCREATE  INDEX "index_nodes_on_active" ON "nodes" ("active")[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_active' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_active' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_name' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_slug' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+
+  [1m[36m (0.4ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m  CREATE  INDEX "index_nodes_on_locale" ON "nodes" ("locale")
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150913205540"]]
+  [1m[35m (18.4ms)[0m  commit transaction
+Migrating to CreateReleafRichtextAttachments (20150913205541)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.6ms)[0m  CREATE TABLE "releaf_richtext_attachments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "file_uid" varchar, "file_name" varchar, "file_type" varchar, "title" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20150913205541"]]
+  [1m[35m (20.0ms)[0m  commit transaction
+Migrating to CreateReleafPermissions (20150913205542)
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.7ms)[0m  CREATE TABLE "releaf_permissions" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "owner_id" integer, "owner_type" varchar, "permission" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) 
+  [1m[36m (0.2ms)[0m  [1mCREATE  INDEX "index_releaf_permissions_on_owner_id_and_owner_type" ON "releaf_permissions" ("owner_id", "owner_type")[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_permissions_on_owner_id_and_owner_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_permissions_on_owner_id_and_owner_type' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1mCREATE  INDEX "index_releaf_permissions_on_permission" ON "releaf_permissions" ("permission")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150913205542"]]
+  [1m[36m (14.5ms)[0m  [1mcommit transaction[0m
+Migrating to CreateReleafUsers (20150913205543)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.6ms)[0m  [1mCREATE TABLE "releaf_users" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "surname" varchar NOT NULL, "locale" varchar, "role_id" integer, "email" varchar DEFAULT '' NOT NULL, "encrypted_password" varchar DEFAULT '' NOT NULL, "reset_password_token" varchar, "reset_password_sent_at" datetime, "remember_created_at" datetime, "sign_in_count" integer DEFAULT 0, "current_sign_in_at" datetime, "last_sign_in_at" datetime, "current_sign_in_ip" varchar, "last_sign_in_ip" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL) [0m
+  [1m[35m (0.4ms)[0m  CREATE  INDEX "index_releaf_users_on_role_id" ON "releaf_users" ("role_id")
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_users_on_role_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_users_on_role_id' AND type='index'
+[0m
+  [1m[35m (0.5ms)[0m  CREATE UNIQUE INDEX "index_releaf_users_on_email" ON "releaf_users" ("email")
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_users_on_role_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_users_on_role_id' AND type='index'
+
+  [1m[36m (0.5ms)[0m  [1mCREATE UNIQUE INDEX "index_releaf_users_on_reset_password_token" ON "releaf_users" ("reset_password_token")[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20150913205543"]]
+  [1m[36m (10.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+  [1m[36m (0.4ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_locale' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_locale' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_active' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_active' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_name' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_name' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_slug' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_slug' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_depth' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_rgt' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_lft' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_content_type_and_content_id' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_nodes_on_parent_id' AND type='index'
+[0m
+  [1m[35m (0.3ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_permissions_on_permission' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_permissions_on_permission' AND type='index'
+
+  [1m[36m (0.3ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_permissions_on_owner_id_and_owner_type' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_permissions_on_owner_id_and_owner_type' AND type='index'
+[0m
+  [1m[35m (0.3ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_translation_data_on_lang_and_translation_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_translation_data_on_lang_and_translation_id' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_translation_data_on_translation_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_translation_data_on_translation_id' AND type='index'
+[0m
+  [1m[35m (0.3ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_translation_data_on_lang' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_translation_data_on_lang' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_translations_on_key' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_translations_on_key' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_users_on_email' AND type='index'
+[0m
+  [1m[35m (0.1ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_releaf_users_on_role_id' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_releaf_users_on_role_id' AND type='index'
+
+  [1m[36m (0.2ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_settings_on_thing_type_and_thing_id_and_var' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_settings_on_thing_type_and_thing_id_and_var' AND type='index'
+[0m
+  [1m[35m (0.2ms)[0m              SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_reset_password_token' AND type='index'
+
+  [1m[36m (0.1ms)[0m  [1m            SELECT sql
+            FROM sqlite_master
+            WHERE name='index_users_on_email' AND type='index'
+            UNION ALL
+            SELECT sql
+            FROM sqlite_temp_master
+            WHERE name='index_users_on_email' AND type='index'
+[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mSQL (10.4ms)[0m  DELETE FROM "releaf_users"
+  [1m[36mSQL (9.2ms)[0m  [1mDELETE FROM "releaf_roles"[0m
+  [1m[35mSQL (9.2ms)[0m  DELETE FROM "releaf_permissions"
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::Permissions::Role Exists (0.3ms)[0m  SELECT  1 AS one FROM "releaf_roles" WHERE LOWER("releaf_roles"."name") = LOWER('super admin') LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "releaf_roles" ("name", "default_controller", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["name", "super admin"], ["default_controller", "releaf/permissions/users"], ["created_at", "2015-09-13 20:56:18.411331"], ["updated_at", "2015-09-13 20:56:18.411331"]]
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_permissions" ("permission", "owner_type", "owner_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["permission", "controller.releaf/content/nodes"], ["owner_type", "Releaf::Permissions::Role"], ["owner_id", 1], ["created_at", "2015-09-13 20:56:18.414493"], ["updated_at", "2015-09-13 20:56:18.414493"]]
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "releaf_permissions" ("permission", "owner_type", "owner_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["permission", "controller.releaf/permissions/users"], ["owner_type", "Releaf::Permissions::Role"], ["owner_id", 1], ["created_at", "2015-09-13 20:56:18.417369"], ["updated_at", "2015-09-13 20:56:18.417369"]]
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "releaf_permissions" ("permission", "owner_type", "owner_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["permission", "controller.releaf/permissions/roles"], ["owner_type", "Releaf::Permissions::Role"], ["owner_id", 1], ["created_at", "2015-09-13 20:56:18.420108"], ["updated_at", "2015-09-13 20:56:18.420108"]]
+  [1m[36mSQL (0.1ms)[0m  [1mINSERT INTO "releaf_permissions" ("permission", "owner_type", "owner_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["permission", "controller.releaf/i18n_database/translations"], ["owner_type", "Releaf::Permissions::Role"], ["owner_id", 1], ["created_at", "2015-09-13 20:56:18.422324"], ["updated_at", "2015-09-13 20:56:18.422324"]]
+  [1m[35mSQL (0.1ms)[0m  INSERT INTO "releaf_permissions" ("permission", "owner_type", "owner_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)  [["permission", "controller.releaf/permissions/profile"], ["owner_type", "Releaf::Permissions::Role"], ["owner_id", 1], ["created_at", "2015-09-13 20:56:18.424733"], ["updated_at", "2015-09-13 20:56:18.424733"]]
+  [1m[36m (9.0ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mReleaf::Permissions::Role Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "releaf_roles" WHERE LOWER("releaf_roles"."name") = LOWER('content mager') LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_roles" ("name", "default_controller", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["name", "content mager"], ["default_controller", "releaf/content/nodes"], ["created_at", "2015-09-13 20:56:18.440480"], ["updated_at", "2015-09-13 20:56:18.440480"]]
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "releaf_permissions" ("permission", "owner_type", "owner_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["permission", "controller.releaf/content/nodes"], ["owner_type", "Releaf::Permissions::Role"], ["owner_id", 2], ["created_at", "2015-09-13 20:56:18.442564"], ["updated_at", "2015-09-13 20:56:18.442564"]]
+  [1m[35m (10.2ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::Permissions::User Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_users" WHERE "releaf_users"."email" = 'admin@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_users" ("name", "surname", "encrypted_password", "locale", "email", "role_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Admin"], ["surname", "User"], ["encrypted_password", "$2a$10$/LAaljh4pQFM5OONuqYXJ.c7BVn8sGFrUL6/9ahrhzEaqQMuOoenC"], ["locale", "en"], ["email", "admin@example.com"], ["role_id", 1], ["created_at", "2015-09-13 20:56:18.595269"], ["updated_at", "2015-09-13 20:56:18.595269"]]
+  [1m[35m (11.3ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::Permissions::User Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_users" WHERE "releaf_users"."email" = 'user@example.com' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_users" ("name", "surname", "encrypted_password", "locale", "email", "role_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?, ?, ?, ?)[0m  [["name", "Simple"], ["surname", "User"], ["encrypted_password", "$2a$10$.SXxVQcdpAYspLVl5Y6ot.5LLPIZCcW1HCgRg4Zgq/axwtp.qgIa6"], ["locale", "en"], ["email", "user@example.com"], ["role_id", 2], ["created_at", "2015-09-13 20:56:18.684537"], ["updated_at", "2015-09-13 20:56:18.684537"]]
+  [1m[35m (11.9ms)[0m  commit transaction
+
+
+Started GET "/" for 78.84.131.84 at 2015-09-13 20:58:44 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mReleaf::Settings Load (0.3ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (3.3ms)
+  Rendered layouts/_nav.html.erb (0.6ms)
+Completed 200 OK in 4154ms (Views: 4138.3ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/admin" for 78.84.131.84 at 2015-09-13 20:58:52 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+ActionController::RoutingError (No route matches [GET] "/admin"):
+  actionpack (4.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  web-console (2.2.1) lib/web_console/middleware.rb:31:in `call'
+  actionpack (4.2.1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.2.1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.2.1) lib/rails/rack/logger.rb:20:in `block in call'
+  activesupport (4.2.1) lib/active_support/tagged_logging.rb:68:in `block in tagged'
+  activesupport (4.2.1) lib/active_support/tagged_logging.rb:26:in `tagged'
+  activesupport (4.2.1) lib/active_support/tagged_logging.rb:68:in `tagged'
+  railties (4.2.1) lib/rails/rack/logger.rb:20:in `call'
+  actionpack (4.2.1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.6.4) lib/rack/methodoverride.rb:22:in `call'
+  rack (1.6.4) lib/rack/runtime.rb:18:in `call'
+  activesupport (4.2.1) lib/active_support/cache/strategy/local_cache_middleware.rb:28:in `call'
+  dragonfly (1.0.11) lib/dragonfly/cookie_monster.rb:9:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  actionpack (4.2.1) lib/action_dispatch/middleware/static.rb:113:in `call'
+  rack (1.6.4) lib/rack/sendfile.rb:113:in `call'
+  railties (4.2.1) lib/rails/engine.rb:518:in `call'
+  railties (4.2.1) lib/rails/application.rb:164:in `call'
+  rack (1.6.4) lib/rack/lock.rb:17:in `call'
+  rack (1.6.4) lib/rack/content_length.rb:15:in `call'
+  rack (1.6.4) lib/rack/handler/webrick.rb:88:in `service'
+  /usr/local/rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-2.2.1/lib/ruby/2.2.0/webrick/server.rb:294:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_dispatch/middleware/templates/rescues/_trace.html.erb (1.9ms)
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_dispatch/middleware/templates/routes/_route.html.erb (2.8ms)
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (8.8ms)
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.html.erb (2.5ms)
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/gems/actionpack-4.2.1/lib/action_dispatch/middleware/templates/rescues/routing_error.html.erb within rescues/layout (84.8ms)
+
+
+Started GET "/" for 78.84.131.84 at 2015-09-13 21:00:04 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mReleaf::Settings Load (0.4ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (3.1ms)
+  Rendered layouts/_nav.html.erb (0.4ms)
+Completed 200 OK in 534ms (Views: 516.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/admin" for 78.84.131.84 at 2015-09-13 21:00:08 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.3ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::Permissions::HomeController#home as HTML
+Completed 401 Unauthorized in 19ms (ActiveRecord: 0.0ms)
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'support.array.words_connector' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "support.array.words_connector"], ["created_at", "2015-09-13 21:00:08.285625"], ["updated_at", "2015-09-13 21:00:08.285625"]]
+  [1m[35m (7.6ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'devise.failure.releaf_permissions_user.unauthenticated' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "devise.failure.releaf_permissions_user.unauthenticated"], ["created_at", "2015-09-13 21:00:08.299366"], ["updated_at", "2015-09-13 21:00:08.299366"]]
+  [1m[36m (9.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'devise.failure.unauthenticated' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "devise.failure.unauthenticated"], ["created_at", "2015-09-13 21:00:08.315837"], ["updated_at", "2015-09-13 21:00:08.315837"]]
+  [1m[35m (9.7ms)[0m  commit transaction
+
+
+Started GET "/admin/sign_in" for 78.84.131.84 at 2015-09-13 21:00:08 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::Permissions::SessionsController#new as HTML
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.sessions.email' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.sessions.email"], ["created_at", "2015-09-13 21:00:08.492594"], ["updated_at", "2015-09-13 21:00:08.492594"]]
+  [1m[35m (11.2ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.sessions.password' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.sessions.password"], ["created_at", "2015-09-13 21:00:08.517173"], ["updated_at", "2015-09-13 21:00:08.517173"]]
+  [1m[36m (10.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.3ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.3ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.sessions.sign in' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.sessions.sign in"], ["created_at", "2015-09-13 21:00:08.539681"], ["updated_at", "2015-09-13 21:00:08.539681"]]
+  [1m[35m (16.2ms)[0m  commit transaction
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/bundler/gems/releaf-0e212a8b7f4d/releaf-permissions/app/views/releaf/permissions/sessions/new.html.haml within layouts/releaf/admin (76.3ms)
+Completed 200 OK in 6315ms (Views: 6255.5ms | ActiveRecord: 41.3ms)
+
+
+Started GET "/assets/releaf/application.self-86bfa3b7cb5ef859ec3bf2ada0dde16bca4548d2fe7cb629183266267f90f44b.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:14 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/core.self-23329dbe1961b938278306c019037fe36ff6ccb28193f1038e52ccbf52858163.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/theme.self-df1da30301997b52795cb0213bccd335f2897b65f84d1d7d7c63c04f048d902f.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/accordion.self-ab9f397561a07488cf14279bc7186619e859cdd485b81d3a6439e85b81d32a05.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/autocomplete.self-2d6dfccae4fba2fe27d00372b974d4540d75a00cea6ceaa0a6aa33852b9d3ac3.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/menu.self-5277268fc75b8d6e851ccb5ca12e162c7440315d70974f34db800bc70330f135.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/button.self-524bbf2d9cf9547e14eda3866ad90726890ff390563ea46013c1ca019694c320.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/datepicker.self-bf92a2196df590f06fad4ab5bb7ed4db1874a9bef0c9af85ea0490d2108b9966.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/draggable.self-ff524fb7ae3023ef910b4e6c5cd7260e4f4dc6fb2eca9a525dd478017639bbba.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/resizable.self-3a16663ae8d70cc7f633554daff3a5875f54915ae3071fc3f3a1aeb0f7c8ab24.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/dialog.self-3e41d6ad769c697e76dceeef1bf376008c8e93e85c144fea25437fa3188d86b8.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/progressbar.self-de3d9f82b3ceaaa88bb0686e77f2548a3cfea1cf4dc37df4f3bc70f99d86a95a.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/selectable.self-fa1d88ada89c5a57dae84c7cb4f17bf153cb1cff063ed4ba2091b5b5f54e77e6.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/selectmenu.self-9a2b20dc7f10d3a7b09d0dc5d038d02dd1aff160e97abf8eaa3d3f5ab09fbb4b.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/sortable.self-bd8078895e9d12cd8586eb9b507ccb4d533daadd0f103f7387554c30cc96313f.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:15 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.5ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/slider.self-57c4d255d192836d85e1253fe091b5b01fed1c389b0dbdedd71c129dcf1cfd35.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/spinner.self-2d292d2e83f1281032010a5acb9cb23492aeecdc95395a5d93f2a3bba9a2c400.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/tabs.self-3dec02555ec77af087a252cdd5be276e714d0059e052a2c92dc2c5401e9df63d.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.5ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/tooltip.self-a349b3ba7b1458eed72dc3ffba597af53b9ceb622e7a324cdfd1c01c7b351f1f.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/base.self-1b94b6a8eaf399d6f662a2ffe0b9b52a958c6180e15b6e07a7ecab0087c9234d.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/all.self-a9629accff9d629face2489f3b6d620ded83dd62f6f04f69e5b33eea2b8d73b6.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui.self-e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/attachments.self-9adfe18f9ab8320cae79220e80114fdbf5bdab7e6213458291aabfdadc6f598f.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/autocomplete.self-8c112c0ea53a079ae8a4d81bc927fd96f9ad9a4fcca4a5a98a200ed9471cd804.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/base.self-da675d712e0e5d52b9bd81ea4f4dbb5bb400c467ffbb59f504fe8bc3794bdf2c.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/breadcrumbs.self-ef636dc3e8092e9b3b40cc62ab06ec62879f5593091c0b475f5fcfc02e4e2851.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/controls.self-d2940d1d92815be2df4276aaa92347cd8d3622d9871deaa62232d1d412a4aedd.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/datepicker.self-a32c41fcaaa4c90762b80e41a2f24bdc7d48b6a33103e8909abb1e3c86699a89.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/dialog.self-60a21c5ca10cdb6e3de1d068eaac7173bfc8d5014e0b397aacf9bf9d84313e2f.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/error.self-bbaf62a2b65100de70ec44aba4a692019513867172e75470536b3ab5e7e0e539.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/fonts.self-be957091a441524e1a85ce282c3ab5decacbc84e91d064a95098f6c632c63e77.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/footer.self-dfdca48501ae53fa2a1a500f197ec94daecd759032974cb8d39822533ae45bae.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:16 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/forms.self-1c6eca8b350dba1fd3491b6bcc958ac3a6c7c0093bd12f198efcb95353050bb8.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/header.self-dc90fec0f33e1c211eb04f08588f2b40903357733e163f87ec81af4a1db574fb.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/layout.self-5ee5713df6d6891fa8ad25eefae495a16fd0efb515b5fa33bd17f750831acd86.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/localization.self-9ab3bb3553653f8ebac689b871bda0235abf2355bf682405b1d43d0cc2be326b.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/notifications.self-12c368635508bc0792025da8c7282323e8410000849da2f63ee8e3418fcffe01.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/main.self-20011a9512e07fef4901a9f5b674e3a74d6322bb3a3327600560434bbac9bc3a.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/pagination.self-905c9de773537061fb4f525dcff469cbb90c0ed1e766d91dc537d9e6c065ff19.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/search.self-8e6c5c2e95900be5a4ee5ccaadbd7898e025ab33adbf60d870fa09deb4a219f2.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/sidebar.self-2e9aad180aa60418d4cbf5cce9c1a2e7e7752d75986ab374fc0f8ee1bed8e101.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/skip_links.self-e5e82fa0c373481532b6bee692758c96a88b8ebf51763c1d47fed4896850f643.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/table.self-47354e369c92839e29ec975852b457f90eb1ab1a30d839886f67b2f752576c2d.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/toolbox.self-560925f21a144473f0e2cfe9399444fee3597a95f9e4997ab0465a53bcac5689.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/font-awesome.self-be09f9a5a5e8fd15a4e4d68dc8509252a33dc056003e53159586cf99368ba0e7.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/3rd_party/magnific-popup.self-4ec09c3ab5400e5fa3371f1d315481a8bc07657bf38b46bf1524d90f9fa1fb7d.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/controllers/releaf/permissions/sessions.self-4c02e515f9447d310c83d61bb7d6067cfb4e68d508e37c528d5251490dc72a80.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/core.self-93be4d22eda916787802a64d8f88b52db8a9027d4ccbbc0942625324a7d12d44.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/widget.self-c1602241ddc51216b58391768667068867b8e15b9efc722befcd25771eda6819.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/accordion.self-c95f320275150a94241b004a91e21eef9c5ae9965a793cb3e2475f6078a1670d.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:17 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/position.self-e693ced4ecfa1a276f0b794f32c1d30d792764b08788bf68ecfa3b388c291333.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/menu.self-7abc1c9401509a7e4fc609b1e461be6fd17e8116e8fda19cc59d05ba79aefb68.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/autocomplete.self-3befc48aba87cead090cfd014562b2771a662ac6d2c8197b24c08b2d9f3d9f2d.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/button.self-4d4f21ba77bbf8cc08ae65e2b6329a7a1b952b32c3ba7bffca8313e7e8c93d0c.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/datepicker.self-6267be6d4d0f0e8665be3b4d6ac07f40ba23a32aff8eaa5d1bfc00f76a9eeae7.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/draggable.self-debcca3d0d5d9afe2fe91a6fd1aebdb41ca0a55f2f6017352e6c02b6d8a6e64c.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/mouse.self-c513294e8da73f31f84ba3ef11e2a1180a47faea0eb2fea4a53fc26153dd21fd.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/resizable.self-60b870565f3cd62982c1907828119bb51f42ec8228d5e23868153edc3abc685c.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/dialog.self-5a6c7980dfa3f6b74445b0f4b20eed799ee65363163500ed7f032e603d6b022d.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/droppable.self-a7a2b4c2cec8fc176f51e4e4291d92bfd3eec40b6a580b47fc54c16334d52882.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-blind.self-ed102209d7aa0b7374f3db8478cc7dcff5f9980d3146e8bf9fbfab959c6d5d8a.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect.self-3acdb29e7da09c8f0195b994d2f04d73bfef50dc539c84fd2c835d964d33e5c1.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-bounce.self-bfcb9288797ecd234ddeedf4fbc5b4c9de94a4e6d8d44e6faa5b5e9836fad9fd.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-clip.self-7368e4597c32360b162d264ff8bbd0cf9fb1535eb9b4564e6eb7c1db3c774bf3.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-drop.self-294aaa72126ad9c94d6558cca792eb3716754713aca98f18a9dd7c493150ed92.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-explode.self-68e74dc114a52f3f4d7033e40c39196961bdcf439652daa2e98baa115c7bb44b.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-fade.self-42d542a5253e0a610717460102ee6bee339c656cc188e491d89eb0779043c963.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:18 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-fold.self-ad9967f153423916300dbf1104b00f7ad7bbd6a222a0fcc1012ebe251bcb13c8.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-highlight.self-f922b7179ab8ccfa7865141f38865bba0a3d2bdceba7561c27ca14544dbfd996.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-size.self-368aecefa09656a2be5c72dc8e685b120363a3df812134cbd2dd998bafa179fd.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-scale.self-884a5abcb6d90fcd9f9a071aa8329638184df688afced1b1d3b6be6c69f4dd7f.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-puff.self-93415831093923a70f671d73e8d0b3d94deb37ac7472a036a4add545f565c166.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-pulsate.self-eb107c0d136eccdfbd8a2f0f2ee71e0f6911cb300c6b63cc2fe4f6532e6a9a97.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-shake.self-63bcc14897aac5b84e10690be94d64d5724f864aa14c913b4d1030c461a256ad.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-slide.self-c93054a4a80d1f986760806d81ab067e4a4120bf103337e152ecc24d36e785f6.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/effect-transfer.self-181245634ec522320fc1081f6dbf94fd982f34eefa03555f76817dedfcdea336.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/progressbar.self-a259ff5a2a5e7aef0ec21bda94edd0f6bc1e9821128d901de415956edf212b0d.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/selectable.self-42e53fc2f95211314e36a8094c42560f869c207f16d68cfc206aa37201dcdc03.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/selectmenu.self-09dbcac573f0e508194bd9deff254db090889b380d030261857860309c0918e8.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/slider.self-8af8d2a0661743ba88b4cfb99d5c8c874cfa3fc6528ae4e9252366b388def0b7.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/sortable.self-df2d80a36f9dfbe0facc596ccd92af83ca50d38e4cd6a84810aaf5d40b8cd181.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/spinner.self-3c8c95a7bc9c877d0f9c16789246bbedda6b8e8fbf5927951babdab775aed02e.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/tabs.self-dc07b44bf1b926c8d28ccd2658e30933881e5329348caf70cf305c3943f6bbd7.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui/tooltip.self-38f04ac3a6c8fb2391ec6832b68845671cc9013a94371b7eb239478f4835eb73.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:19 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery-ui.self-52111578aa54225c9ebfe06f78a62771020ee548bb27d62228ee3f5e6633969d.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/jquery.cookie.self-54e6d8430dd88cc11eac236e182381bfa3c8b330d5931d49194ead92dc2ee600.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/ckeditor/basepath.self-372981e38edca3246fca9dbb4263753ec0abddf9246f80fedb2fb4c46b46417c.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/ckeditor/ckeditor.self-d1ad3c7f24d395fa8e9f19285ee95fc8c21f86a3017680b2eb7e3dd8b07b9d07.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/ckeditor/jquery.self-592c793dde01441a6664743099017e3895c23594aa11e5c07c2892ee28726e58.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/ckeditor-jquery.self-6a3cf5192354f71615ac51034b3e97c20eda99643fcaf5bbe6d41ad59bd12167.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/ajax.self-ee02092a083fcda64aa8746380b5083fcf9ce8faf9396bf75d8dab6c63f8ebed.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/ajaxbox.self-705c835e7ee1ced4127bf27b909ea671e7bdfe0e2ae78dc3e1a12d45989040d2.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/field.type_associated_set.self-bfdd70fbd513acc79130804b906ba0bd841d85ed313fb32a7b838af41cfe3594.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/field.type_date_or_datetime_or_time.self-1592537259467203ba991f9d095c7f8fde2b81fdb73e8d2a26f5c242450b9f90.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/loader.self-d573df9579ba1be8b345918174a39758ec91c4e7cb357ca43475fea94fdf7e46.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/field.type_richtext.self-43a46f679193449233a9a0d997fc907950bda9a9f90a351a701192683706698f.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/localization.self-7e62f093535abc7e7619fb83f8bd7c472be917a021a9b5365eaa568292d6ef86.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/nested_fields.self-962c4d83a76c0593a70e2354b852e43cfcad2a7be4577b0dbb203303fd3d43a7.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/notifications.self-a17038587463929a64c1d7bf13028776470ffd0a0afded8aaf7f84daaaa8413f.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/pagination.self-4e0caed8276178ccc12faeab653568a17155be7f7cc105af2f793fdb68791438.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (4.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/profile_settings.self-f145d08b417589f6c15ff7aebfa07c3e0be3d31a5fa8f7fee4f573a248cf3b9c.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:20 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/remote_validator.self-8a5cc79f229e4b1133eece6f9b1cdda2e7db25d1f7f27492d80d0cc854fcc539.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/search.self-d1fccdcaba3b09e67dacb6761d3d9d2575cf71c191b6b8d7eab9b7d95301dbd8.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/sidebar.self-570e5406edb63446a785ff7f1af0ec058f59d527dde070fb016dc41786d38074.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/sortable.self-8b3fed588405ae362d17039b2a20375b1af59ab2b452f8770e119c34779b487d.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/url_builder.self-93532ea0df58185e9c462f20fed201de573bb185151db9bfb80137c1872630c4.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/include/toolbox.self-298779a20b1d52688634b0c8b920ef8346a281b07db4d0bc2479b964235e7143.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/3rd_party/jquery-ui-timepicker-addon.self-9769d4d94751ede11ad686f81909e8901bc7eb0fb559c243417d083ea64b7f25.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/3rd_party/jquery.magnific-popup.min.self-c97b215da7bef7c9f6d259db08978bc586b2ba4b425e03eef241f581ab72ed5d.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/application.self-6bc763d76cec2c478cda75a45cba1849fdc646ac84a45db81497ebf4c268d75a.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/logo-login-011c57e005efbfea94f1c905185db0ae471f0074745c73b0b94b5397ef7287d5.png" for 78.84.131.84 at 2015-09-13 21:00:21 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started POST "/admin/sign_in" for 78.84.131.84 at 2015-09-13 21:00:30 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::Permissions::SessionsController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"+lAiRHsjiZSduxLsFpd9fJEtDRQKMDkQfaTwXT5mEVrvlKyAwFVfd3ukbK98sjhhI4B5nBMKlx5HhS2gK1FSoQ==", "releaf_permissions_user"=>{"email"=>"admin@example.com", "password"=>"[FILTERED]"}}
+  [1m[36mReleaf::Permissions::User Load (0.4ms)[0m  [1mSELECT  "releaf_users".* FROM "releaf_users" WHERE "releaf_users"."email" = ?  ORDER BY "releaf_users"."id" ASC LIMIT 1[0m  [["email", "admin@example.com"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.4ms)[0m  [1mUPDATE "releaf_users" SET "last_sign_in_at" = ?, "current_sign_in_at" = ?, "last_sign_in_ip" = ?, "current_sign_in_ip" = ?, "sign_in_count" = ?, "updated_at" = ? WHERE "releaf_users"."id" = ?[0m  [["last_sign_in_at", "2015-09-13 21:00:30.515832"], ["current_sign_in_at", "2015-09-13 21:00:30.515832"], ["last_sign_in_ip", "78.84.131.84"], ["current_sign_in_ip", "78.84.131.84"], ["sign_in_count", 1], ["updated_at", "2015-09-13 21:00:30.517737"], ["id", 1]]
+  [1m[35m (10.3ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'devise.sessions.releaf_permissions_user.signed_in' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "devise.sessions.releaf_permissions_user.signed_in"], ["created_at", "2015-09-13 21:00:30.537224"], ["updated_at", "2015-09-13 21:00:30.537224"]]
+  [1m[36m (8.4ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'devise.sessions.signed_in' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "devise.sessions.signed_in"], ["created_at", "2015-09-13 21:00:30.553786"], ["updated_at", "2015-09-13 21:00:30.553786"]]
+  [1m[35m (14.8ms)[0m  commit transaction
+Redirected to https://flutter-superpavelnieks.c9.io/admin
+Completed 302 Found in 201ms (ActiveRecord: 36.0ms)
+
+
+Started GET "/admin" for 78.84.131.84 at 2015-09-13 21:00:30 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.3ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::Permissions::HomeController#home as HTML
+  [1m[35mReleaf::Permissions::User Load (0.3ms)[0m  SELECT  "releaf_users".* FROM "releaf_users" WHERE "releaf_users"."id" = ?  ORDER BY "releaf_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.breadcrumbs.Home' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.breadcrumbs.Home"], ["created_at", "2015-09-13 21:00:30.741129"], ["updated_at", "2015-09-13 21:00:30.741129"]]
+  [1m[36m (11.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Permissions::Role Load (0.2ms)[0m  SELECT  "releaf_roles".* FROM "releaf_roles" WHERE "releaf_roles"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mReleaf::Permissions::Permission Load (0.3ms)[0m  [1mSELECT "releaf_permissions".* FROM "releaf_permissions" WHERE "releaf_permissions"."owner_id" = ? AND "releaf_permissions"."owner_type" = ?[0m  [["owner_id", 1], ["owner_type", "Releaf::Permissions::Role"]]
+Redirected to https://flutter-superpavelnieks.c9.io/admin/users
+Completed 302 Found in 90ms (ActiveRecord: 14.7ms)
+
+
+Started GET "/admin/users" for 78.84.131.84 at 2015-09-13 21:00:30 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::Permissions::UsersController#index as HTML
+  [1m[36mReleaf::Permissions::User Load (0.2ms)[0m  [1mSELECT  "releaf_users".* FROM "releaf_users" WHERE "releaf_users"."id" = ?  ORDER BY "releaf_users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mReleaf::Permissions::Role Load (0.2ms)[0m  SELECT  "releaf_roles".* FROM "releaf_roles" WHERE "releaf_roles"."id" = ? LIMIT 1  [["id", 1]]
+  [1m[36mReleaf::Permissions::Permission Load (0.2ms)[0m  [1mSELECT "releaf_permissions".* FROM "releaf_permissions" WHERE "releaf_permissions"."owner_id" = ? AND "releaf_permissions"."owner_type" = ?[0m  [["owner_id", 1], ["owner_type", "Releaf::Permissions::Role"]]
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.controllers.releaf/permissions/users' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.controllers.releaf/permissions/users"], ["created_at", "2015-09-13 21:00:30.963834"], ["updated_at", "2015-09-13 21:00:30.963834"]]
+  [1m[36m (9.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_users.Search' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_permissions_users.Search"], ["created_at", "2015-09-13 21:00:31.031255"], ["updated_at", "2015-09-13 21:00:31.031255"]]
+  [1m[35m (9.6ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_users.All resources' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_permissions_users.All resources"], ["created_at", "2015-09-13 21:00:31.048682"], ["updated_at", "2015-09-13 21:00:31.048682"]]
+  [1m[36m (9.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "releaf_users"
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_users.Resources found.one' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_permissions_users.Resources found.one"], ["created_at", "2015-09-13 21:00:31.078873"], ["updated_at", "2015-09-13 21:00:31.078873"]]
+  [1m[36m (9.7ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_users.Resources found.other' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_permissions_users.Resources found.other"], ["created_at", "2015-09-13 21:00:31.093019"], ["updated_at", "2015-09-13 21:00:31.093019"]]
+  [1m[36m (9.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "releaf_users"
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'activerecord.attributes.releaf/permissions/user.name' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "activerecord.attributes.releaf/permissions/user.name"], ["created_at", "2015-09-13 21:00:31.113449"], ["updated_at", "2015-09-13 21:00:31.113449"]]
+  [1m[36m (10.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'activerecord.attributes.releaf/permissions/user.surname' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "activerecord.attributes.releaf/permissions/user.surname"], ["created_at", "2015-09-13 21:00:31.131864"], ["updated_at", "2015-09-13 21:00:31.131864"]]
+  [1m[36m (23.5ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'activerecord.attributes.releaf/permissions/user.role' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "activerecord.attributes.releaf/permissions/user.role"], ["created_at", "2015-09-13 21:00:31.164350"], ["updated_at", "2015-09-13 21:00:31.164350"]]
+  [1m[36m (9.1ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'activerecord.attributes.releaf/permissions/user.email' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "activerecord.attributes.releaf/permissions/user.email"], ["created_at", "2015-09-13 21:00:31.182421"], ["updated_at", "2015-09-13 21:00:31.182421"]]
+  [1m[36m (9.7ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'activerecord.attributes.releaf/permissions/user.locale' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "activerecord.attributes.releaf/permissions/user.locale"], ["created_at", "2015-09-13 21:00:31.198596"], ["updated_at", "2015-09-13 21:00:31.198596"]]
+  [1m[36m (6.9ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mReleaf::Permissions::User Load (0.3ms)[0m  [1mSELECT  "releaf_users".* FROM "releaf_users" LIMIT 40 OFFSET 0[0m
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.1ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_users.Tools' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_permissions_users.Tools"], ["created_at", "2015-09-13 21:00:31.215660"], ["updated_at", "2015-09-13 21:00:31.215660"]]
+  [1m[35m (12.9ms)[0m  commit transaction
+  [1m[36mReleaf::Permissions::Role Load (0.2ms)[0m  [1mSELECT  "releaf_roles".* FROM "releaf_roles" WHERE "releaf_roles"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'locales.en' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "locales.en"], ["created_at", "2015-09-13 21:00:31.238479"], ["updated_at", "2015-09-13 21:00:31.238479"]]
+  [1m[35m (9.5ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mReleaf::Permissions::Role Load (0.1ms)[0m  SELECT  "releaf_roles".* FROM "releaf_roles" WHERE "releaf_roles"."id" = ? LIMIT 1  [["id", 2]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_users.Create new resource' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_permissions_users.Create new resource"], ["created_at", "2015-09-13 21:00:31.260131"], ["updated_at", "2015-09-13 21:00:31.260131"]]
+  [1m[35m (13.5ms)[0m  commit transaction
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/bundler/gems/releaf-0e212a8b7f4d/releaf-core/app/views/releaf/base/index.ruby within layouts/releaf/admin (272.3ms)
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mRailsSettings::ScopedSettings Load (0.3ms)[0m  SELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.side.compact"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.side.compact"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.controllers.releaf/content/nodes' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.controllers.releaf/content/nodes"], ["created_at", "2015-09-13 21:00:32.264139"], ["updated_at", "2015-09-13 21:00:32.264139"]]
+  [1m[35m (11.5ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.controllers.permissions' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.controllers.permissions"], ["created_at", "2015-09-13 21:00:32.281584"], ["updated_at", "2015-09-13 21:00:32.281584"]]
+  [1m[36m (9.2ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.controllers.releaf/permissions/roles' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.controllers.releaf/permissions/roles"], ["created_at", "2015-09-13 21:00:32.297791"], ["updated_at", "2015-09-13 21:00:32.297791"]]
+  [1m[36m (7.2ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.1ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.controllers.releaf/i18n_database/translations' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.controllers.releaf/i18n_database/translations"], ["created_at", "2015-09-13 21:00:32.311043"], ["updated_at", "2015-09-13 21:00:32.311043"]]
+  [1m[35m (9.2ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_users.Close' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_permissions_users.Close"], ["created_at", "2015-09-13 21:00:32.325591"], ["updated_at", "2015-09-13 21:00:32.325591"]]
+  [1m[36m (8.0ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 2320ms (Views: 2091.0ms | ActiveRecord: 203.5ms)
+
+
+Started GET "/assets/releaf/logo-727ae1b44d42b0f97de5c4d75e68841a4cee58922fd282df974cc68c24dea2b0.png" for 78.84.131.84 at 2015-09-13 21:00:33 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/fontawesome-webfont-3c4a1bb7ce3234407184f0d80cc4dec075e4ad616b44dcc5778e1cfb1bc24019.woff2?v=4.4.0" for 78.84.131.84 at 2015-09-13 21:00:33 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/roboto-regular-webfont-2e22a619e6be0dbefbc2c8a2cd732eb1519046bfce10a5be6d5f440e899063ea.woff" for 78.84.131.84 at 2015-09-13 21:00:33 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/admin/roles" for 78.84.131.84 at 2015-09-13 21:00:40 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::Permissions::RolesController#index as HTML
+  [1m[35mReleaf::Permissions::User Load (0.2ms)[0m  SELECT  "releaf_users".* FROM "releaf_users" WHERE "releaf_users"."id" = ?  ORDER BY "releaf_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mReleaf::Permissions::Role Load (0.2ms)[0m  [1mSELECT  "releaf_roles".* FROM "releaf_roles" WHERE "releaf_roles"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mReleaf::Permissions::Permission Load (0.2ms)[0m  SELECT "releaf_permissions".* FROM "releaf_permissions" WHERE "releaf_permissions"."owner_id" = ? AND "releaf_permissions"."owner_type" = ?  [["owner_id", 1], ["owner_type", "Releaf::Permissions::Role"]]
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_roles.Search' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_permissions_roles.Search"], ["created_at", "2015-09-13 21:00:40.301465"], ["updated_at", "2015-09-13 21:00:40.301465"]]
+  [1m[36m (11.0ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_roles.All resources' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_permissions_roles.All resources"], ["created_at", "2015-09-13 21:00:40.318261"], ["updated_at", "2015-09-13 21:00:40.318261"]]
+  [1m[35m (10.6ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "releaf_roles"[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_roles.Resources found.one' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_permissions_roles.Resources found.one"], ["created_at", "2015-09-13 21:00:40.336625"], ["updated_at", "2015-09-13 21:00:40.336625"]]
+  [1m[35m (8.5ms)[0m  commit transaction
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_roles.Resources found.other' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_permissions_roles.Resources found.other"], ["created_at", "2015-09-13 21:00:40.350492"], ["updated_at", "2015-09-13 21:00:40.350492"]]
+  [1m[35m (10.0ms)[0m  commit transaction
+  [1m[36m (0.3ms)[0m  [1mSELECT COUNT(*) FROM "releaf_roles"[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.1ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'activerecord.attributes.releaf/permissions/role.name' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "activerecord.attributes.releaf/permissions/role.name"], ["created_at", "2015-09-13 21:00:40.373940"], ["updated_at", "2015-09-13 21:00:40.373940"]]
+  [1m[35m (9.8ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'activerecord.attributes.releaf/permissions/role.default_controller' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "activerecord.attributes.releaf/permissions/role.default_controller"], ["created_at", "2015-09-13 21:00:40.390710"], ["updated_at", "2015-09-13 21:00:40.390710"]]
+  [1m[35m (9.8ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mReleaf::Permissions::Role Load (0.2ms)[0m  SELECT  "releaf_roles".* FROM "releaf_roles" LIMIT 40 OFFSET 0
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_roles.Tools' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_permissions_roles.Tools"], ["created_at", "2015-09-13 21:00:40.409490"], ["updated_at", "2015-09-13 21:00:40.409490"]]
+  [1m[36m (10.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_roles.Create new resource' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_permissions_roles.Create new resource"], ["created_at", "2015-09-13 21:00:40.432272"], ["updated_at", "2015-09-13 21:00:40.432272"]]
+  [1m[36m (9.2ms)[0m  [1mcommit transaction[0m
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/bundler/gems/releaf-0e212a8b7f4d/releaf-core/app/views/releaf/base/index.ruby within layouts/releaf/admin (156.7ms)
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mRailsSettings::ScopedSettings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.side.compact"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.side.compact"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_permissions_roles.Close' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_permissions_roles.Close"], ["created_at", "2015-09-13 21:00:41.314001"], ["updated_at", "2015-09-13 21:00:41.314001"]]
+  [1m[35m (11.7ms)[0m  commit transaction
+Completed 200 OK in 2068ms (Views: 1957.8ms | ActiveRecord: 99.4ms)
+
+
+Started GET "/admin/translations" for 78.84.131.84 at 2015-09-13 21:00:43 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::I18nDatabase::TranslationsController#index as HTML
+  [1m[35mReleaf::Permissions::User Load (0.2ms)[0m  SELECT  "releaf_users".* FROM "releaf_users" WHERE "releaf_users"."id" = ?  ORDER BY "releaf_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mReleaf::Permissions::Role Load (0.2ms)[0m  [1mSELECT  "releaf_roles".* FROM "releaf_roles" WHERE "releaf_roles"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mReleaf::Permissions::Permission Load (0.1ms)[0m  SELECT "releaf_permissions".* FROM "releaf_permissions" WHERE "releaf_permissions"."owner_id" = ? AND "releaf_permissions"."owner_type" = ?  [["owner_id", 1], ["owner_type", "Releaf::Permissions::Role"]]
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.Only blank' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_i18n_database_translations.Only blank"], ["created_at", "2015-09-13 21:00:44.022652"], ["updated_at", "2015-09-13 21:00:44.022652"]]
+  [1m[36m (10.1ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.Search' LIMIT 1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_i18n_database_translations.Search"], ["created_at", "2015-09-13 21:00:44.039075"], ["updated_at", "2015-09-13 21:00:44.039075"]]
+  [1m[35m (9.4ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.All resources' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_i18n_database_translations.All resources"], ["created_at", "2015-09-13 21:00:44.056061"], ["updated_at", "2015-09-13 21:00:44.056061"]]
+  [1m[36m (12.4ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  SELECT COUNT(*) FROM "releaf_translations" LEFT OUTER JOIN
+        releaf_translation_data AS en_data ON en_data.translation_id = releaf_translations.id AND en_data.lang = 'en'
+  [1m[36mReleaf::Settings Load (0.1ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.Resources found.one' LIMIT 1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_i18n_database_translations.Resources found.one"], ["created_at", "2015-09-13 21:00:44.076262"], ["updated_at", "2015-09-13 21:00:44.076262"]]
+  [1m[36m (11.3ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.Resources found.other' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_i18n_database_translations.Resources found.other"], ["created_at", "2015-09-13 21:00:44.092551"], ["updated_at", "2015-09-13 21:00:44.092551"]]
+  [1m[36m (9.6ms)[0m  [1mcommit transaction[0m
+  [1m[35m (0.3ms)[0m  SELECT COUNT(*) FROM "releaf_translations" LEFT OUTER JOIN
+        releaf_translation_data AS en_data ON en_data.translation_id = releaf_translations.id AND en_data.lang = 'en'
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.1ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'activerecord.attributes.releaf/i18n_database/translation.key' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "activerecord.attributes.releaf/i18n_database/translation.key"], ["created_at", "2015-09-13 21:00:44.113170"], ["updated_at", "2015-09-13 21:00:44.113170"]]
+  [1m[36m (10.8ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mReleaf::I18nDatabase::Translation Load (0.5ms)[0m  SELECT  releaf_translations.*, en_data.localization AS en_localization, en_data.id AS en_localization_id FROM "releaf_translations" LEFT OUTER JOIN
+        releaf_translation_data AS en_data ON en_data.translation_id = releaf_translations.id AND en_data.lang = 'en'  ORDER BY "releaf_translations"."key" ASC LIMIT 40 OFFSET 0
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.3ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 42]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 33]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 32]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 18]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 19]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 15]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.2ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 17]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.2ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 16]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.2ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 9]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 24]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 23]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.2ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 26]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 25]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.3ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 10]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 39]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 37]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 40]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 41]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 38]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 29]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.2ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 36]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 35]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 30]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 31]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.2ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 28]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 34]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 12]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 27]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 22]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 13]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 14]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 11]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 20]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.2ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 4]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 5]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 6]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 2]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 3]]
+  [1m[36mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  [1mSELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?[0m  [["translation_id", 7]]
+  [1m[35mReleaf::I18nDatabase::TranslationData Load (0.1ms)[0m  SELECT "releaf_translation_data".* FROM "releaf_translation_data" WHERE "releaf_translation_data"."translation_id" = ?  [["translation_id", 8]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.Edit' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_i18n_database_translations.Edit"], ["created_at", "2015-09-13 21:00:44.206082"], ["updated_at", "2015-09-13 21:00:44.206082"]]
+  [1m[36m (10.6ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.export' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_i18n_database_translations.export"], ["created_at", "2015-09-13 21:00:44.223213"], ["updated_at", "2015-09-13 21:00:44.223213"]]
+  [1m[35m (9.8ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.import' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_i18n_database_translations.import"], ["created_at", "2015-09-13 21:00:44.239516"], ["updated_at", "2015-09-13 21:00:44.239516"]]
+  [1m[36m (9.8ms)[0m  [1mcommit transaction[0m
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/bundler/gems/releaf-0e212a8b7f4d/releaf-core/app/views/releaf/base/index.ruby within layouts/releaf/admin (237.8ms)
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mRailsSettings::ScopedSettings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.side.compact"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.side.compact"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mRailsSettings::ScopedSettings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.menu.collapsed.permissions"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.menu.collapsed.permissions"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_i18n_database_translations.Close' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_i18n_database_translations.Close"], ["created_at", "2015-09-13 21:00:45.234745"], ["updated_at", "2015-09-13 21:00:45.234745"]]
+  [1m[35m (10.7ms)[0m  commit transaction
+Completed 200 OK in 2202ms (Views: 2073.3ms | ActiveRecord: 120.4ms)
+
+
+Started GET "/assets/releaf/controllers/releaf/i18n_database/translations.self-e7c5004be14d9c19ffd897165985f5192dca79ad28cd8004423cc8d347f22e2b.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:46 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/controllers/releaf/i18n_database/translations.self-a4dec63e8c7b77db20298a78d122d8a34e179040253d28ea0f7094019ec09761.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:46 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/admin/nodes" for 78.84.131.84 at 2015-09-13 21:00:49 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::Content::NodesController#index as HTML
+  [1m[35mReleaf::Permissions::User Load (0.2ms)[0m  SELECT  "releaf_users".* FROM "releaf_users" WHERE "releaf_users"."id" = ?  ORDER BY "releaf_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36mReleaf::Permissions::Role Load (0.2ms)[0m  [1mSELECT  "releaf_roles".* FROM "releaf_roles" WHERE "releaf_roles"."id" = ? LIMIT 1[0m  [["id", 1]]
+  [1m[35mReleaf::Permissions::Permission Load (0.3ms)[0m  SELECT "releaf_permissions".* FROM "releaf_permissions" WHERE "releaf_permissions"."owner_id" = ? AND "releaf_permissions"."owner_type" = ?  [["owner_id", 1], ["owner_type", "Releaf::Permissions::Role"]]
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.3ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_content_nodes.Search' LIMIT 1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_content_nodes.Search"], ["created_at", "2015-09-13 21:00:49.399810"], ["updated_at", "2015-09-13 21:00:49.399810"]]
+  [1m[36m (13.4ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_content_nodes.All resources' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_content_nodes.All resources"], ["created_at", "2015-09-13 21:00:49.420366"], ["updated_at", "2015-09-13 21:00:49.420366"]]
+  [1m[35m (9.2ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mSELECT COUNT(*) FROM "nodes" WHERE "nodes"."parent_id" IS NULL[0m
+  [1m[35mReleaf::Settings Load (0.1ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.1ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_content_nodes.Create new resource' LIMIT 1
+  [1m[36mSQL (0.2ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "admin.releaf_content_nodes.Create new resource"], ["created_at", "2015-09-13 21:00:49.437424"], ["updated_at", "2015-09-13 21:00:49.437424"]]
+  [1m[35m (8.0ms)[0m  commit transaction
+  Rendered /usr/local/rvm/gems/ruby-2.2.1/bundler/gems/releaf-0e212a8b7f4d/releaf-core/app/views/releaf/base/index.ruby within layouts/releaf/admin (65.9ms)
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mRailsSettings::ScopedSettings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.side.compact"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.side.compact"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mRailsSettings::ScopedSettings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.menu.collapsed.permissions"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE "settings"."thing_type" = ? AND "settings"."thing_id" = ? AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["thing_type", "Releaf::Permissions::User"], ["thing_id", 1], ["var", "releaf.menu.collapsed.permissions"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35mCACHE (0.0ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36mCACHE (0.0ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'admin.releaf_content_nodes.Close' LIMIT 1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "admin.releaf_content_nodes.Close"], ["created_at", "2015-09-13 21:00:50.412249"], ["updated_at", "2015-09-13 21:00:50.412249"]]
+  [1m[36m (11.8ms)[0m  [1mcommit transaction[0m
+Completed 200 OK in 2170ms (Views: 2113.4ms | ActiveRecord: 47.1ms)
+
+
+Started GET "/assets/releaf/controllers/releaf/content/nodes.self-607a6e36f9aa380fc6d2f0df9994b17498c734f42cdf80ff2f5973ab6708c138.css?body=1" for 78.84.131.84 at 2015-09-13 21:00:51 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started GET "/assets/releaf/controllers/releaf/content/nodes.self-bf184daeffc1dfdf25dc4ce74a4c611df2dfa31977864a8e391de7200d967142.js?body=1" for 78.84.131.84 at 2015-09-13 21:00:51 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+
+
+Started DELETE "/admin/sign_out" for 78.84.131.84 at 2015-09-13 21:00:52 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.content.nodes.updated_at"]]
+Processing by Releaf::Permissions::SessionsController#destroy as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"VcH+7xIwczoQTjPTRme0vdvV+c/+uqdGqqcvV+v4QLay4/D8cYHHD7wk+ThhFG46JTwFwJwUP4hlP9Milvi8Cw=="}
+  [1m[36mUser Load (0.3ms)[0m  [1mSELECT  "users".* FROM "users" WHERE "users"."id" = ?  ORDER BY "users"."id" ASC LIMIT 1[0m  [["id", 1]]
+  [1m[35mReleaf::Permissions::User Load (0.2ms)[0m  SELECT  "releaf_users".* FROM "releaf_users" WHERE "releaf_users"."id" = ?  ORDER BY "releaf_users"."id" ASC LIMIT 1  [["id", 1]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  commit transaction
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  [1mSELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'devise.sessions.releaf_permissions_user.signed_out' LIMIT 1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)  [["key", "devise.sessions.releaf_permissions_user.signed_out"], ["created_at", "2015-09-13 21:00:52.753655"], ["updated_at", "2015-09-13 21:00:52.753655"]]
+  [1m[36m (11.3ms)[0m  [1mcommit transaction[0m
+  [1m[35mReleaf::Settings Load (0.2ms)[0m  SELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1  [["var", "releaf.i18n_database.translations.updated_at"]]
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35mReleaf::I18nDatabase::Translation Exists (0.2ms)[0m  SELECT  1 AS one FROM "releaf_translations" WHERE "releaf_translations"."key" = 'devise.sessions.signed_out' LIMIT 1
+  [1m[36mSQL (0.3ms)[0m  [1mINSERT INTO "releaf_translations" ("key", "created_at", "updated_at") VALUES (?, ?, ?)[0m  [["key", "devise.sessions.signed_out"], ["created_at", "2015-09-13 21:00:52.772448"], ["updated_at", "2015-09-13 21:00:52.772448"]]
+  [1m[35m (8.5ms)[0m  commit transaction
+Redirected to https://flutter-superpavelnieks.c9.io/
+Completed 302 Found in 72ms (ActiveRecord: 23.3ms)
+
+
+Started GET "/" for 78.84.131.84 at 2015-09-13 21:00:52 +0000
+Cannot render console from 78.84.131.84! Allowed networks: 127.0.0.1, ::1, 127.0.0.0/127.255.255.255
+  [1m[36mReleaf::Settings Load (0.2ms)[0m  [1mSELECT  "settings".* FROM "settings" WHERE (thing_type is NULL and thing_id is NULL) AND "settings"."var" = ?  ORDER BY "settings"."id" ASC LIMIT 1[0m  [["var", "releaf.content.nodes.updated_at"]]
+Processing by PagesController#index as HTML
+  Rendered pages/index.html.erb within layouts/application (0.2ms)
+  Rendered layouts/_nav.html.erb (0.1ms)
+Completed 200 OK in 297ms (Views: 295.6ms | ActiveRecord: 0.0ms)

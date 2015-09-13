@@ -6,6 +6,12 @@ gem 'bootstrap-sass', '~> 3.3.5'
 # for profile system
 gem 'devise'
 
+# for admin panel
+gem 'releaf', github: 'cubesystems/releaf'
+
+# for rails internalization
+gem 'rails-i18n', '~> 4.0.0' # For 4.0.x
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.1'
 # Use sqlite3 as the database for Active Record

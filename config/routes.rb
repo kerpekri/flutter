@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   get 'home'    => 'pages#home'
   get 'profile' => 'pages#profile'
   get 'explore' => 'pages#explore'
+  
+  mount_releaf_at '/admin'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
